@@ -1,4 +1,5 @@
 /* rubberduck.jsx */
+'use strict';
 
 var DuckHistoryRow = React.createClass({
   render: function() {
@@ -15,46 +16,10 @@ var DuckHistoryRow = React.createClass({
 });
 
 var DuckHistory = React.createClass({
-  addDuckMessage: function() {
-    var rows = this.state.rows;
-    rows.unshift(<DuckHistoryRow poster="Duck" text={this.pickDuckMessage()} />);
-    this.setState({rows: rows});
-  },
-  getInitialState: function() {
-    return {
-      rows: [],
-      duckTimeout: null
-    };
-  },
-  handleFormSubmit: function(chatMessage) {
-    var rows = this.state.rows;
-    var duckTimeout = this.state.duckTimeout;
-    rows.unshift(<DuckHistoryRow poster={chatMessage.name} text={chatMessage.text} />);
-    clearTimeout(duckTimeout);
-    duckTimeout = setTimeout(this.addDuckMessage, 4000);
-    this.setState({rows: rows, duckTimeout: duckTimeout});
-  },
-  pickDuckMessage: function() {
-    var duckSayings = [
-      "Hmmm.",
-      "Okay.",
-      "I see.",
-      "Alright.",
-      "Interesting.",
-      "OK",
-      "I'm with you.",
-      "Following.",
-      "Huh.",
-    ];
-    return duckSayings[Math.floor(Math.random() * duckSayings.length)];
-  },
   render: function() {
     return (
-      <div>
-        <DuckForm onFormSubmit={this.handleFormSubmit} />
-        <div className="duckHistory">
-          {this.state.rows}
-        </div>
+      <div className="duckHistory">
+        {this.props.rows}
       </div>
     );
   }
@@ -87,7 +52,52 @@ var DuckForm = React.createClass({
   }
 });
 
+var Duck = React.createClass({
+  addDuckMessage: function() {
+    var rows = this.state.rows;
+    rows.unshift(<DuckHistoryRow poster="Duck" text={this.pickDuckMessage()} />);
+    this.setState({rows: rows});
+  },
+  getInitialState: function() {
+    return {
+      rows: [],
+      duckTimeout: null
+    };
+  },
+  handleFormSubmit: function(chatMessage) {
+    var rows = this.state.rows;
+    var duckTimeout = this.state.duckTimeout;
+    // array.unshift will put the new item at the front of the array
+    rows.unshift(<DuckHistoryRow poster={chatMessage.name} text={chatMessage.text} />);
+    clearTimeout(duckTimeout);
+    duckTimeout = setTimeout(this.addDuckMessage, 4000);
+    this.setState({rows: rows, duckTimeout: duckTimeout});
+  },
+  pickDuckMessage: function() {
+    var duckSayings = [
+      "Hmmm.",
+      "Okay.",
+      "I see.",
+      "Alright.",
+      "Interesting.",
+      "OK",
+      "I'm with you.",
+      "Following.",
+      "Huh.",
+    ];
+    return duckSayings[Math.floor(Math.random() * duckSayings.length)];
+  },
+  render: function() {
+    return (
+      <div className="superDuck">
+        <DuckForm onFormSubmit={this.handleFormSubmit} />
+        <DuckHistory rows={this.state.rows} />
+      </div>
+    );
+  }
+});
+
 React.render(
-  <DuckHistory />,
+  <Duck />,
   document.getElementById("duckContainer")
 );

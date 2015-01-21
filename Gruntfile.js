@@ -28,12 +28,19 @@ module.exports = function(grunt) {
           'src/js/rubberduck.min.js': ['src/js/rubberduck.js']
         }
       }
+    },
+    watch: {
+      react: {
+        files: 'src/jsx/rubberduck.jsx',
+        tasks: ['react']
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-react');
 
   // Custom tasks for Grunt

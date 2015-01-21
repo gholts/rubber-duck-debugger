@@ -1,4 +1,5 @@
 /* rubberduck.jsx */
+'use strict';
 
 var DuckHistoryRow = React.createClass({displayName: "DuckHistoryRow",
   render: function() {
@@ -15,6 +16,16 @@ var DuckHistoryRow = React.createClass({displayName: "DuckHistoryRow",
 });
 
 var DuckHistory = React.createClass({displayName: "DuckHistory",
+  render: function() {
+    return (
+      React.createElement("div", {className: "duckHistory"}, 
+        this.props.rows
+      )
+    );
+  }
+});
+
+var Duck = React.createClass({displayName: "Duck",
   addDuckMessage: function() {
     var rows = this.state.rows;
     rows.unshift(React.createElement(DuckHistoryRow, {poster: "Duck", text: this.pickDuckMessage()}));
@@ -50,11 +61,9 @@ var DuckHistory = React.createClass({displayName: "DuckHistory",
   },
   render: function() {
     return (
-      React.createElement("div", null, 
+      React.createElement("div", {className: "superDuck"}, 
         React.createElement(DuckForm, {onFormSubmit: this.handleFormSubmit}), 
-        React.createElement("div", {className: "duckHistory"}, 
-          this.state.rows
-        )
+        React.createElement(DuckHistory, {rows: this.state.rows})
       )
     );
   }
@@ -88,6 +97,6 @@ var DuckForm = React.createClass({displayName: "DuckForm",
 });
 
 React.render(
-  React.createElement(DuckHistory, null),
+  React.createElement(Duck, null),
   document.getElementById("duckContainer")
 );
