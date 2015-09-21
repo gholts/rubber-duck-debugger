@@ -1,4 +1,3 @@
-/* rubberduck.jsx */
 'use strict';
 
 var DuckHistoryRow = React.createClass({
